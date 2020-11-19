@@ -275,9 +275,7 @@ for l=2:nt-1
         +(C.C13+C.C23+C.C33).*v3_z) ...
         +p...
         -dt*beta.*p;
-    %% compute v
-    l3=3;
-    
+    %% compute v   
     v1(:,:,:,3)=dt./C.rho.*(1/dx*D(sigmas11-p,-1)+1/dy*D(sigmas12,2)+1/dz*D(sigmas13,3))+v1(:,:,:,2)...
         -dt*beta.*v1(:,:,:,2);
     

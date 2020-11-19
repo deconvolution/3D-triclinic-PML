@@ -25,7 +25,7 @@ nx=101;
 ny=101;
 nz=101;
 
-nt=2000;
+nt=4000;
 ns=nt;
 dt=10^-3;
 %% grid specifying 3D coordinates
@@ -68,6 +68,18 @@ C.C66(:)=mu;
 C.rho(:)=1000;
 C.lambda2=10^6;
 C.mu2=10^6;
+
+lambdaf=1000*340^2;
+C.rho(:,:,1:60)=1000;
+C.C11(:,:,1:60)=lambdaf;
+C.C12(:,:,1:60)=lambdaf;
+C.C13(:,:,1:60)=lambdaf;
+C.C22(:,:,1:60)=lambdaf;
+C.C23(:,:,1:60)=lambdaf;
+C.C33(:,:,1:60)=lambdaf;
+C.C44(:,:,1:60)=0;
+C.C55(:,:,1:60)=0;
+C.C66(:,:,1:60)=0;
 %% Source and source signals
 % source locations
 s1=[fix(nx/2)];
