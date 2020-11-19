@@ -1,0 +1,41 @@
+<?xml version="1.0"?> 
+<VTKFile type="Collection" version="0.1" byte_order="LittleEndian"> 
+<Collection>
+	<DataSet timestep="2.000000e-01" file="./vts/velocity_model_Timestep1.vts"/> 
+	<DataSet timestep="4.000000e-01" file="./vts/velocity_model_Timestep2.vts"/> 
+	<DataSet timestep="6.000000e-01" file="./vts/velocity_model_Timestep3.vts"/> 
+	<DataSet timestep="8.000000e-01" file="./vts/velocity_model_Timestep4.vts"/> 
+	<DataSet timestep="1.000000e+00" file="./vts/velocity_model_Timestep5.vts"/> 
+	<DataSet timestep="1.200000e+00" file="./vts/velocity_model_Timestep6.vts"/> 
+	<DataSet timestep="1.400000e+00" file="./vts/velocity_model_Timestep7.vts"/> 
+	<DataSet timestep="1.600000e+00" file="./vts/velocity_model_Timestep8.vts"/> 
+	<DataSet timestep="1.800000e+00" file="./vts/velocity_model_Timestep9.vts"/> 
+	<DataSet timestep="2.000000e+00" file="./vts/velocity_model_Timestep10.vts"/> 
+	<DataSet timestep="2.200000e+00" file="./vts/velocity_model_Timestep11.vts"/> 
+	<DataSet timestep="2.400000e+00" file="./vts/velocity_model_Timestep12.vts"/> 
+	<DataSet timestep="2.600000e+00" file="./vts/velocity_model_Timestep13.vts"/> 
+	<DataSet timestep="2.800000e+00" file="./vts/velocity_model_Timestep14.vts"/> 
+	<DataSet timestep="3.000000e+00" file="./vts/velocity_model_Timestep15.vts"/> 
+	<DataSet timestep="3.200000e+00" file="./vts/velocity_model_Timestep16.vts"/> 
+	<DataSet timestep="3.400000e+00" file="./vts/velocity_model_Timestep17.vts"/> 
+	<DataSet timestep="3.600000e+00" file="./vts/velocity_model_Timestep18.vts"/> 
+	<DataSet timestep="3.800000e+00" file="./vts/velocity_model_Timestep19.vts"/> 
+	<DataSet timestep="4.000000e+00" file="./vts/velocity_model_Timestep20.vts"/> 
+	<DataSet timestep="4.200000e+00" file="./vts/velocity_model_Timestep21.vts"/> 
+	<DataSet timestep="4.400000e+00" file="./vts/velocity_model_Timestep22.vts"/> 
+	<DataSet timestep="4.600000e+00" file="./vts/velocity_model_Timestep23.vts"/> 
+	<DataSet timestep="4.800000e+00" file="./vts/velocity_model_Timestep24.vts"/> 
+	<DataSet timestep="5.000000e+00" file="./vts/velocity_model_Timestep25.vts"/> 
+	<DataSet timestep="5.200000e+00" file="./vts/velocity_model_Timestep26.vts"/> 
+	<DataSet timestep="5.400000e+00" file="./vts/velocity_model_Timestep27.vts"/> 
+	<DataSet timestep="5.600000e+00" file="./vts/velocity_model_Timestep28.vts"/> 
+	<DataSet timestep="5.800000e+00" file="./vts/velocity_model_Timestep29.vts"/> 
+	<DataSet timestep="6.000000e+00" file="./vts/velocity_model_Timestep30.vts"/> 
+	<DataSet timestep="6.200000e+00" file="./vts/velocity_model_Timestep31.vts"/> 
+	<DataSet timestep="6.400000e+00" file="./vts/velocity_model_Timestep32.vts"/> 
+	<DataSet timestep="6.600000e+00" file="./vts/velocity_model_Timestep33.vts"/> 
+	<DataSet timestep="6.800000e+00" file="./vts/velocity_model_Timestep34.vts"/> 
+	<DataSet timestep="7.000000e+00" file="./vts/velocity_model_Timestep35.vts"/> 
+	<DataSet timestep="7.200000e+00" file="./vts/velocity_model_Timestep36.vts"/> 
+</Collection>
+</VTKFile>

@@ -69,7 +69,7 @@ switch d
             -1/2*ad(u(:,:,3:end),2,3);
 end
 %}
-%%
+%% first order
 
 u2=zeros(size(u));
 switch d

@@ -26,15 +26,17 @@ end
 n_picture=1;
 %% vtk write source and receiver locations
 if length(s1)==1
-    vtkwrite([path 'source.vtk'],'polydata','lines',[s1,s1]'*dx,[s2,s2]'*dy,[s3,s3]'*dz);
+    vtkwrite([path 'source.vtk'],'polydata','lines',min(X(:))+[s1,s1]'*dx/1000,min(Y(:))+[s2,s2]'*dy/1000,max(Z(:))-[s3,s3]'*dz/1000);
 else
-    vtkwrite([path 'source.vtk'],'polydata','lines',s1'*dx,s2'*dy,s3'*dz);
+    % change for volcano
+    vtkwrite([path 'source.vtk'],'polydata','lines',min(X(:))+s1'*dx/1000,min(Y(:))+s2'*dy/1000,max(Z(:))-s3'*dz/1000);
 end
 
 if length(r3)==1
-    vtkwrite([path 'receiver.vtk'],'polydata','lines',[r1,r1]'*dx,[r2,r2]'*dy,[r3,r3]'*dz);
+    vtkwrite([path 'receiver.vtk'],'polydata','lines',min(X(:))+[r1,r1]'*dx/1000,min(Y(:))+[r2,r2]'*dy/1000,max(Z(:))-[r3,r3]'*dz/1000);
 else
-    vtkwrite([path 'receiver.vtk'],'polydata','lines',r1'*dx,r2'*dy,r3'*dz);
+    % change for volcano
+    vtkwrite([path 'receiver.vtk'],'polydata','lines',min(X(:))+r1'*dx/1000,min(Y(:))+r2'*dy/1000,max(Z(:))-r3'*dz/1000);
 end
 %% initialize parameters
 format shortg;
@@ -372,7 +374,8 @@ for l=2:nt-1
         
         figure('visible','off');
         set(gcf,'position',[80,80,1000,800]);
-        ax=slice(Y,X,Z,v3(:,:,:,3),y2*dy,x2*dx,z2*dz);
+        % need change later
+        ax=slice(X,Y,Z,v3(:,:,:,3),y2*dy,x2*dx,z2*dz);
         if length(view_angle)==2
             view(view_angle);
         end
@@ -388,6 +391,7 @@ for l=2:nt-1
         set(gca,'zdir','reverse');
         title({['v3 [m/s]'],['t=' num2str(dt*(l+1)) 's']});
         hold on;
+        %{
         for is=1:length(s3)
             hold on;
             ax2=plot3(s2*dy,s1*dx,s3*dz,'v','color','red');
@@ -396,9 +400,11 @@ for l=2:nt-1
             hold on;
             ax3=plot3(r2*dy,r1*dx,r3*dz,'^','color','black');
         end
+        
         legend([ax2,ax3],...
             'source','receiver',...
             'Location',[0.5,0.02,0.005,0.002],'orientation','horizontal');
+        %}
         print(gcf,[path 'pic/' num2str(n_picture) '.png'],'-dpng','-r200')
         %% save vtk
         c11=C.C11;
