@@ -25,7 +25,7 @@ nx=101;
 ny=101;
 nz=101;
 
-nt=4000;
+nt=1000;
 ns=nt;
 dt=10^-3;
 %% grid specifying 3D coordinates
@@ -56,6 +56,7 @@ C.C66=C.C11;
 %% transfer stiffness, density and viscosity
 lambda=10^9;
 mu=10^9;
+
 C.C11(:)=lambda+2*mu;
 C.C12(:)=lambda;
 C.C13(:)=lambda;
@@ -66,20 +67,32 @@ C.C44(:)=mu;
 C.C55(:)=mu;
 C.C66(:)=mu;
 C.rho(:)=1000;
-C.lambda2=10^6;
-C.mu2=10^6;
+C.lambda2=0;
+C.mu2=0;
 
 lambdaf=1000*340^2;
-C.rho(:,:,1:60)=1000;
-C.C11(:,:,1:60)=lambdaf;
-C.C12(:,:,1:60)=lambdaf;
-C.C13(:,:,1:60)=lambdaf;
-C.C22(:,:,1:60)=lambdaf;
-C.C23(:,:,1:60)=lambdaf;
-C.C33(:,:,1:60)=lambdaf;
-C.C44(:,:,1:60)=0;
-C.C55(:,:,1:60)=0;
-C.C66(:,:,1:60)=0;
+C.rho(:,:,1:30)=1000;
+C.C11(:,:,1:30)=lambdaf;
+C.C12(:,:,1:30)=lambdaf;
+C.C13(:,:,1:30)=lambdaf;
+C.C22(:,:,1:30)=lambdaf;
+C.C23(:,:,1:30)=lambdaf;
+C.C33(:,:,1:30)=lambdaf;
+C.C44(:,:,1:30)=0;
+C.C55(:,:,1:30)=0;
+C.C66(:,:,1:30)=0;
+
+C.C11(50,50,30)=lambda+2*mu;
+C.C12(50,50,30)=lambda;
+C.C13(50,50,30)=lambda;
+C.C22(50,50,30)=lambda+2*mu;
+C.C23(50,50,30)=lambda;
+C.C33(50,50,30)=lambda+2*mu;
+C.C44(50,50,30)=mu;
+C.C55(50,50,30)=mu;
+C.C66(50,50,30)=mu;
+%%
+figure; imagesc(reshape(C.C11(:,50,:),[ny,nz]))
 %% Source and source signals
 % source locations
 s1=[fix(nx/2)];
@@ -109,9 +122,11 @@ src3=1*[singles];
 source_type=['D'];
 %% Receiver
 % receiver location
-r1=1:3:101;
-r2=ones(size(r1))*fix(ny/2);
-r3=ones(size(r1))*21;
+r1=[1:3:101,50];
+r2=[ones(size(r1))*fix(ny/2)];
+r2(end)=50;
+r3=[ones(size(r1))*31];
+r3(end)=30;
 %% PML
 % PML layers
 lp=20;

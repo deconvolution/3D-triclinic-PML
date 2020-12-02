@@ -26,17 +26,17 @@ end
 n_picture=1;
 %% vtk write source and receiver locations
 if length(s1)==1
-    vtkwrite([path 'source.vtk'],'polydata','lines',min(X(:))+[s1,s1]'*dx/1000,min(Y(:))+[s2,s2]'*dy/1000,max(Z(:))-[s3,s3]'*dz/1000);
+    vtkwrite([path 'source.vtk'],'polydata','lines',min(Y(:))+[s1,s1]'*dx,min(X(:))+[s2,s2]'*dy,max(Z(:))-[s3,s3]'*dz);
 else
     % change for volcano
-    vtkwrite([path 'source.vtk'],'polydata','lines',min(X(:))+s1'*dx/1000,min(Y(:))+s2'*dy/1000,max(Z(:))-s3'*dz/1000);
+    vtkwrite([path 'source.vtk'],'polydata','lines',min(Y(:))+s1'*dx,min(X(:))+s2'*dy,max(Z(:))-s3'*dz);
 end
 
 if length(r3)==1
-    vtkwrite([path 'receiver.vtk'],'polydata','lines',min(X(:))+[r1,r1]'*dx/1000,min(Y(:))+[r2,r2]'*dy/1000,max(Z(:))-[r3,r3]'*dz/1000);
+    vtkwrite([path 'receiver.vtk'],'polydata','lines',min(Y(:))+[r1,r1]'*dx,min(X(:))+[r2,r2]'*dy,max(Z(:))-[r3,r3]'*dz);
 else
     % change for volcano
-    vtkwrite([path 'receiver.vtk'],'polydata','lines',min(X(:))+r1'*dx/1000,min(Y(:))+r2'*dy/1000,max(Z(:))-r3'*dz/1000);
+    vtkwrite([path 'receiver.vtk'],'polydata','lines',min(Y(:))+r2'*dy,min(X(:))+r1'*dx,max(Z(:))-r3'*dz);
 end
 %% initialize parameters
 format shortg;
@@ -277,7 +277,7 @@ for l=2:nt-1
         +(C.C13+C.C23+C.C33).*v3_z) ...
         +p...
         -dt*beta.*p;
-    %% compute v   
+    %% compute v
     v1(:,:,:,3)=dt./C.rho.*(1/dx*D(sigmas11-p,-1)+1/dy*D(sigmas12,2)+1/dz*D(sigmas13,3))+v1(:,:,:,2)...
         -dt*beta.*v1(:,:,:,2);
     
@@ -374,8 +374,7 @@ for l=2:nt-1
         
         figure('visible','off');
         set(gcf,'position',[80,80,1000,800]);
-        % need change later
-        ax=slice(X,Y,Z,v3(:,:,:,3),y2*dy,x2*dx,z2*dz);
+        ax=slice(Y,X,Z,v3(:,:,:,3),y2*dy,x2*dx,z2*dz);
         if length(view_angle)==2
             view(view_angle);
         end

@@ -117,7 +117,7 @@ r3=ones(size(r1));
 for i=1:length(r1)
     tt=C.C44(r1(i),r2(i),:);
     tt2=find(tt~=0);
-    tt3=min(tt2);
+    tt3=min(tt2)+2;
     r3(i)=tt3;
 end
 %% PML
@@ -174,3 +174,66 @@ sources=[path '/pic/'];
 delaytime=.2;
 filename='animation';
 gifmaker(filename,delaytime,sources);
+%% plot seismogram
+figure;
+tt=find(r1==96&r2==96);
+ax=plot(dt:dt:dt*nt,R1(tt(1),:),'red');
+hold on;
+tt=find(r1==21&r2==96);
+ax2=plot(dt:dt:dt*nt,R1(tt(1),:),'blue');
+hold on;
+tt=find(r1==171&r2==96);
+ax3=plot(dt:dt:dt*nt,R1(tt(1),:),'green');
+hold on;
+tt=find(r1==96&r2==21);
+ax4=plot(dt:dt:dt*nt,R1(tt(1),:),'black');
+hold on;
+tt=find(r1==96&r2==171);
+ax5=plot(dt:dt:dt*nt,R1(tt(1),:),'cyan');
+hold on;
+legend([ax,ax2,ax3,ax4,ax5], ...
+    'center','x-','x+','y-','y+');
+xlabel('t [s]');
+ylabel('v_1 [m/s]');
+
+figure;
+tt=find(r1==96&r2==96);
+ax=plot(dt:dt:dt*nt,R2(tt(1),:),'red');
+hold on;
+tt=find(r1==21&r2==96);
+ax2=plot(dt:dt:dt*nt,R2(tt(1),:),'blue');
+hold on;
+tt=find(r1==171&r2==96);
+ax3=plot(dt:dt:dt*nt,R2(tt(1),:),'green');
+hold on;
+tt=find(r1==96&r2==21);
+ax4=plot(dt:dt:dt*nt,R2(tt(1),:),'black');
+hold on;
+tt=find(r1==96&r2==171);
+ax5=plot(dt:dt:dt*nt,R2(tt(1),:),'cyan');
+hold on;
+legend([ax,ax2,ax3,ax4,ax5], ...
+    'center','x-','x+','y-','y+');
+xlabel('t [s]');
+ylabel('v_2 [m/s]');
+
+figure;
+tt=find(r1==96&r2==96);
+ax=plot(dt:dt:dt*nt,R3(tt(1),:),'red');
+hold on;
+tt=find(r1==21&r2==96);
+ax2=plot(dt:dt:dt*nt,R3(tt(1),:),'blue');
+hold on;
+tt=find(r1==171&r2==96);
+ax3=plot(dt:dt:dt*nt,R3(tt(1),:),'green');
+hold on;
+tt=find(r1==96&r2==21);
+ax4=plot(dt:dt:dt*nt,R3(tt(1),:),'black');
+hold on;
+tt=find(r1==96&r2==171);
+ax5=plot(dt:dt:dt*nt,R3(tt(1),:),'cyan');
+hold on;
+legend([ax,ax2,ax3,ax4,ax5], ...
+    'center','x-','x+','y-','y+');
+xlabel('t [s]');
+ylabel('v_3 [m/s]');

@@ -25,11 +25,23 @@ dz=c.dz;
 
 [nx,ny,nz]=size(c.C11);
 
-nt=2000;
+nt=1000;
 ns=nt;
 dt=10^-2;
 %%
-vtkwrite('C11_fluctuation.vtk','structured_grid',c.X,c.Y,c.Z,'scalars','C11',c.C11)
+vtkwrite('C11_fluctuation.vtk','structured_grid',c.X,c.Y,c.Z,'scalars','C11',c.C11);
+%%
+figure;
+ax=plot(reshape(sqrt(c.C11(96,96,:)./c.rho(96,96,:)),[1,nz]),max(c.Z(:))-(dz:dz:dz*nz)/1000,'color','red');
+hold on;
+ax2=plot(reshape(sqrt(c.C33(96,96,:)./c.rho(96,96,:)),[1,nz]),max(c.Z(:))-(dz:dz:dz*nz)/1000,'color','blue');
+hold on;
+ax3=plot(reshape(sqrt(c.C44(96,96,:)./c.rho(96,96,:)),[1,nz]),max(c.Z(:))-(dz:dz:dz*nz)/1000,'color','green');
+hold on;
+ax4=plot(reshape(sqrt(c.C66(96,96,:)./c.rho(96,96,:)),[1,nz]),max(c.Z(:))-(dz:dz:dz*nz)/1000,'color','black');
+xlabel('v [m/s]');
+ylabel('UTM z');
+legend([ax,ax2,ax3,ax4],'v_{px}','v_{pz}','v_{syz}','v_{sxy}')
 %% grid specifying 3D coordinates
 X=c.X;
 Y=c.Y;
@@ -117,7 +129,7 @@ r3=ones(size(r1));
 for i=1:length(r1)
     tt=C.C44(r1(i),r2(i),:);
     tt2=find(tt~=0);
-    tt3=min(tt2);
+    tt3=min(tt2)+2;
     r3(i)=tt3;
 end
 %% PML
@@ -147,7 +159,7 @@ y2=s2;
 % z slice
 z2=s3;
 %% solving wavefield
-[R1,R2,R3,v1,v2,v3,E]=triclinic_3D(dt,dx,dy,dz,nt,nx,ny,nz,C,...
+[R1,R2,R3,v1,v2,v3,E]=triclinic_3D_themas(dt,dx,dy,dz,nt,nx,ny,nz,C,...
     s1,s2,s3,src1,src2,src3,source_type, ...
     r1,r2,r3, ...
     lp,nPML,Rc, ...
@@ -174,3 +186,66 @@ sources=[path '/pic/'];
 delaytime=.2;
 filename='animation';
 gifmaker(filename,delaytime,sources);
+%% plot seismogram
+figure;
+tt=find(r1==96&r2==96);
+ax=plot(dt:dt:dt*nt,R1(tt(1),:),'red');
+hold on;
+tt=find(r1==21&r2==96);
+ax2=plot(dt:dt:dt*nt,R1(tt(1),:),'blue');
+hold on;
+tt=find(r1==171&r2==96);
+ax3=plot(dt:dt:dt*nt,R1(tt(1),:),'green');
+hold on;
+tt=find(r1==96&r2==21);
+ax4=plot(dt:dt:dt*nt,R1(tt(1),:),'black');
+hold on;
+tt=find(r1==96&r2==171);
+ax5=plot(dt:dt:dt*nt,R1(tt(1),:),'cyan');
+hold on;
+legend([ax,ax2,ax3,ax4,ax5], ...
+    'center','x-','x+','y-','y+');
+xlabel('t [s]');
+ylabel('v_1 [m/s]');
+
+figure;
+tt=find(r1==96&r2==96);
+ax=plot(dt:dt:dt*nt,R2(tt(1),:),'red');
+hold on;
+tt=find(r1==21&r2==96);
+ax2=plot(dt:dt:dt*nt,R2(tt(1),:),'blue');
+hold on;
+tt=find(r1==171&r2==96);
+ax3=plot(dt:dt:dt*nt,R2(tt(1),:),'green');
+hold on;
+tt=find(r1==96&r2==21);
+ax4=plot(dt:dt:dt*nt,R2(tt(1),:),'black');
+hold on;
+tt=find(r1==96&r2==171);
+ax5=plot(dt:dt:dt*nt,R2(tt(1),:),'cyan');
+hold on;
+legend([ax,ax2,ax3,ax4,ax5], ...
+    'center','x-','x+','y-','y+');
+xlabel('t [s]');
+ylabel('v_2 [m/s]');
+
+figure;
+tt=find(r1==96&r2==96);
+ax=plot(dt:dt:dt*nt,R3(tt(1),:),'red');
+hold on;
+tt=find(r1==21&r2==96);
+ax2=plot(dt:dt:dt*nt,R3(tt(1),:),'blue');
+hold on;
+tt=find(r1==171&r2==96);
+ax3=plot(dt:dt:dt*nt,R3(tt(1),:),'green');
+hold on;
+tt=find(r1==96&r2==21);
+ax4=plot(dt:dt:dt*nt,R3(tt(1),:),'black');
+hold on;
+tt=find(r1==96&r2==171);
+ax5=plot(dt:dt:dt*nt,R3(tt(1),:),'cyan');
+hold on;
+legend([ax,ax2,ax3,ax4,ax5], ...
+    'center','x-','x+','y-','y+');
+xlabel('t [s]');
+ylabel('v_3 [m/s]');
