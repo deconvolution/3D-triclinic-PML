@@ -25,19 +25,16 @@ end
 
 n_picture=1;
 %% vtk write source and receiver locations
-if length(s1)==1
-    vtkwrite([path 'source.vtk'],'polydata','lines',min(Y(:))+[s1,s1]'*dx,min(X(:))+[s2,s2]'*dy,max(Z(:))-[s3,s3]'*dz);
-else
-    % change for volcano
-    vtkwrite([path 'source.vtk'],'polydata','lines',min(Y(:))+s1'*dx,min(X(:))+s2'*dy,max(Z(:))-s3'*dz);
-end
 
-if length(r3)==1
-    vtkwrite([path 'receiver.vtk'],'polydata','lines',min(Y(:))+[r1,r1]'*dx,min(X(:))+[r2,r2]'*dy,max(Z(:))-[r3,r3]'*dz);
-else
-    % change for volcano
-    vtkwrite([path 'receiver.vtk'],'polydata','lines',min(Y(:))+r2'*dy,min(X(:))+r1'*dx,max(Z(:))-r3'*dz);
-end
+% vtkwrite([path 'source.vtk'],'polydata','lines',min(Y(:))+[s1,s1]'*dx,min(X(:))+[s2,s2]'*dy,max(Z(:))-[s3,s3]'*dz);
+% vtkwrite([path 'source.vtk'],'polydata','lines',min(Y(:))+s1'*dx,min(X(:))+s2'*dy,max(Z(:))-s3'*dz);
+writematrix([1,2,3;
+    min(X(:))+s1'*dx,min(Y(:))+s2'*dy,max(Z(:))-s3'*dz],[path 'source.csv']);
+
+% change for volcano
+% vtkwrite([path 'receiver.vtk'],'polydata','lines',min(Y(:))+r2'*dy,min(X(:))+r1'*dx,max(Z(:))-r3'*dz);
+writematrix([1,2,3;
+    min(X(:))+r1'*dx,min(Y(:))+r2'*dy,max(Z(:))-r3'*dz],[path 'receiver.csv']);
 %% initialize parameters
 format shortg;
 % energy

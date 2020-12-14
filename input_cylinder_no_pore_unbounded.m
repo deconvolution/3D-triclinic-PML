@@ -145,7 +145,7 @@ Rc=.001;
 nPML=2;
 %% plot
 % point interval in time steps
-plot_interval=50;
+plot_interval=10;
 
 % figure path
 p2=mfilename('fullpath');
