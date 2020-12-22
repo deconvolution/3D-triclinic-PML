@@ -68,6 +68,10 @@ C.C66(:)=mu;
 C.rho(:)=1000;
 C.lambda2=0;
 C.mu2=0;
+
+C.C11=C.C11*2/3;
+C.C55=C.C55*2/3;
+C.C66=C.C66*2/3;
 %% Source and source signals
 % source locations
 s1=[fix(nx/2)];
@@ -93,7 +97,7 @@ src3=1*[singles];
 
 % souce type, 'P' for P-wave source, 'S' for S-wave source, 'D' for
 % directional source
-source_type=['D'];
+source_type=['S'];
 %% Receiver
 % receiver location
 r1=1:3:101;
@@ -104,13 +108,13 @@ r3=ones(size(r1))*11;
 lp=10;
 
 % theoretical reflection coeficcient
-Rc=1;
+Rc=.1;
 
 % PML power, normally 2
 nPML=2;
 %% plot
 % point interval in time steps
-plot_interval=1;
+plot_interval=20;
 
 % figure path
 p2=mfilename('fullpath');
@@ -125,11 +129,18 @@ x2=s1;
 y2=s2;
 % z slice
 z2=s3;
+
+PMLxp=1;
+PMLxm=1;
+PMLyp=1;
+PMLym=1;
+PMLzp=1;
+PMLzm=1;
 %% solving wavefield
 [R1,R2,R3,v1,v2,v3,E]=triclinic_3D(dt,dx,dy,dz,nt,nx,ny,nz,C,...
     s1,s2,s3,src1,src2,src3,source_type, ...
     r1,r2,r3, ...
-    lp,nPML,Rc, ...
+    lp,nPML,Rc,PMLxp,PMLxm,PMLyp,PMLym,PMLzp,PMLzm, ...
     X,Y,Z,...
     x2,y2,z2,plot_interval,view_angle,...
     path);
@@ -140,13 +151,14 @@ xlabel('t [s]');
 ylabel('E [J]');
 print(gcf,[path 'E.png'],'-dpng','-r200');
 %% recording saving
-[rec,simu_info]=rec_conversion(s1,s2,s3,r1,r2,r3,R1,R2,R3,dt,dx,dy,dz,nt,nx,ny,nz,lp,ones(1,length(s1))*freq);
+[rec,simu_info]=rec_conversion(X,Y,Z,s1,s2,s3,r1,r2,r3,R1,R2,R3,dt,dx,dy,dz,nt,nx,ny,nz,lp,ones(1,length(s1))*freq);
 save([path 'rec.mat'],'rec');
 save([path 'simu_info.mat'],'rec');
 figure('name','rec v3 [m/s]');
 imagesc(1:length(r3),dt:dt:dt*nt,R3');
 xlabel('Nr');
 ylabel('t [s]');
+title('v3 [m/s]');
 %% make gif
 sources=[path '/pic/'];
 delaytime=.2;

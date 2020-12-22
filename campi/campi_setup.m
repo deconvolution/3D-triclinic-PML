@@ -14,12 +14,34 @@ ny=length(Y0);
 nz=length(Z0);
 
 
-X=flip(permute(reshape(M(:,1),[nz,ny,nx]),[3,2,1]),2);
-Y=flip(permute(reshape(M(:,2),[nz,ny,nx]),[3,2,1]),2);
-Z=flip(permute(reshape(M(:,3),[nz,ny,nx]),[3,2,1]),2);
+X1=flip(permute(reshape(M(:,1),[nz,ny,nx]),[3,2,1]),2);
+Y1=flip(permute(reshape(M(:,2),[nz,ny,nx]),[3,2,1]),2);
+Z1=flip(permute(reshape(M(:,3),[nz,ny,nx]),[3,2,1]),2);
 
-vp=flip(permute(reshape(M(:,4),[nz,ny,nx]),[3,2,1]),2);
-vs=flip(permute(reshape(M(:,5),[nz,ny,nx]),[3,2,1]),2);
+X2=repmat(X1(:,:,1),[1,1,16]);
+Y2=repmat(Y1(:,:,1),[1,1,16]);
+Z2=repmat(reshape(flip(700:100:700+100*15,2),[1,1,16]),[nx,ny,1]);
+
+nz=nz+16;
+
+X=zeros(nx,ny,nz);
+Y=zeros(nx,ny,nz);
+Z=zeros(nx,ny,nz);
+
+X(:,:,1:16)=X2;
+X(:,:,17:end)=X1;
+Y(:,:,1:16)=Y2;
+Y(:,:,17:end)=Y1;
+Z(:,:,1:16)=Z2;
+Z(:,:,17:end)=Z1;
+
+vp2=flip(permute(reshape(M(:,4),[nz-16,ny,nx]),[3,2,1]),2);
+vs2=flip(permute(reshape(M(:,5),[nz-16,ny,nx]),[3,2,1]),2);
+
+vp=zeros(nx,ny,nz);
+vs=vp;
+vp(:,:,17:end)=vp2;
+vs(:,:,17:end)=vs2;
 
 tit={'WE','SN','Al','vp','vs','vp/vs'};
 vtkwrite('campi_vp.vtk','structured_grid',X,Y,Z,'scalars','campi_vp',vp);
@@ -92,12 +114,12 @@ latlong=[coor,b];
 [Er,Nr,Zone]=deg2utm(latlong(:,1),latlong(:,2));
 r1=fix((Er'-min(X0))/dx);
 r2=fix((Nr'-min(Y0))/dy);
-r3=fix((max(Z0)-stazioni(:,5)'*1000)/dz);
+r3=fix((max(Z(:))-stazioni(:,5)'*1000)/dz);
 %% Source and source signals
 [Es,Ns,~]=deg2utm(40+49.50/60,14+9.02/60);
 s1=fix((Es'-min(X0))/dx);
 s2=fix((Ns'-min(Y0))/dy);
-s3=fix((max(Z0)-(-1.53)*1000)/dz);
+s3=fix((max(Z(:))-(-1.53)*1000)/dz);
 %% save model setup
 campi_model.X=X;
 campi_model.Y=Y;

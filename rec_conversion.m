@@ -1,8 +1,8 @@
-function [T,T2]=rec_conversion(s1,s2,s3,r1,r2,r3,R1,R2,R3,dt,dx,dy,dz,nt,nx,ny,nz,lp,freq)
+function [T,T2]=rec_conversion(X,Y,Z,s1,s2,s3,r1,r2,r3,R1,R2,R3,dt,dx,dy,dz,nt,nx,ny,nz,lp,freq)
 % T is recording file
 % T2 is simulation detail
 %%
-T=table([r1';r1';r1'],[r2';r2';r2'],[r3';r3';r3'],[ones(length(r3),1);ones(length(r3),1)*2;ones(length(r3),1)*3],[R1;...
+T=table([r1';r1';r1']*dx+min(X(:)),[r2';r2';r2']*dy+min(Y(:)),max(Z(:))-[r3';r3';r3']*dz,[ones(length(r3),1);ones(length(r3),1)*2;ones(length(r3),1)*3],[R1;...
     R2;R3]);
 T.Properties.VariableNames={'x','y','z','v','time'};
 T1=table(dt,nt,0,0,dt:dt:(dt*nt));

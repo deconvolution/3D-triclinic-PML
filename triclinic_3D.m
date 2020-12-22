@@ -1,10 +1,33 @@
 function [R1,R2,R3,v1,v2,v3,E]=triclinic_3D(dt,dx,dy,dz,nt,nx,ny,nz,C,...
     s1,s2,s3,src1,src2,src3,source_type, ...
     r1,r2,r3, ...
-    lp,nPML,Rc, ...
+    lp,nPML,Rc,PMLxp,PMLxm,PMLyp,PMLym,PMLzp,PMLzm, ...
     X,Y,Z,...
     x2,y2,z2,plot_interval,view_angle,...
     path)
+%% conversion to single
+C.rho=single(C.rho);
+C.C11=single(C.C11);
+C.C12=single(C.C12);
+C.C13=single(C.C13);
+C.C14=single(C.C14);
+C.C15=single(C.C15);
+C.C16=single(C.C16);
+C.C22=single(C.C22);
+C.C23=single(C.C23);
+C.C24=single(C.C24);
+C.C25=single(C.C25);
+C.C26=single(C.C26);
+C.C33=single(C.C33);
+C.C34=single(C.C34);
+C.C35=single(C.C35);
+C.C36=single(C.C36);
+C.C44=single(C.C44);
+C.C45=single(C.C45);
+C.C46=single(C.C46);
+C.C55=single(C.C55);
+C.C56=single(C.C56);
+C.C66=single(C.C66);
 %% initialize folder for saving
 tic;
 PVDFileName =[path 'timeinfo'];
@@ -25,14 +48,9 @@ end
 
 n_picture=1;
 %% vtk write source and receiver locations
-
-% vtkwrite([path 'source.vtk'],'polydata','lines',min(Y(:))+[s1,s1]'*dx,min(X(:))+[s2,s2]'*dy,max(Z(:))-[s3,s3]'*dz);
-% vtkwrite([path 'source.vtk'],'polydata','lines',min(Y(:))+s1'*dx,min(X(:))+s2'*dy,max(Z(:))-s3'*dz);
 writematrix([1,2,3;
     min(X(:))+s1'*dx,min(Y(:))+s2'*dy,max(Z(:))-s3'*dz],[path 'source.csv']);
 
-% change for volcano
-% vtkwrite([path 'receiver.vtk'],'polydata','lines',min(Y(:))+r2'*dy,min(X(:))+r1'*dx,max(Z(:))-r3'*dz);
 writematrix([1,2,3;
     min(X(:))+r1'*dx,min(Y(:))+r2'*dy,max(Z(:))-r3'*dz],[path 'receiver.csv']);
 %% initialize parameters
@@ -44,7 +62,7 @@ E=zeros(nt,1);
 INDr=sub2ind([nx,ny,nz],r1,r2,r3)+2*nx*ny*nz;
 
 % receiver
-R1=zeros(length(r3),nt);
+R1=zeros(length(r3),nt,'single');
 R2=R1;
 R3=R1;
 % velocity
@@ -54,7 +72,7 @@ v3=v1;
 p=v1;
 
 % sigmas
-sigmas11=zeros(nx,ny,nz);
+sigmas11=zeros(nx,ny,nz,'single');
 sigmas12=sigmas11;
 sigmas13=sigmas11;
 sigmas22=sigmas11;
@@ -62,7 +80,7 @@ sigmas23=sigmas11;
 sigmas33=sigmas11;
 p=sigmas11;
 %% PML coefficient
-tt=zeros(nx,ny,nz,3);
+tt=zeros(nx,ny,nz,3,'single');
 tt(:,:,:,1)=C.C11;
 tt(:,:,:,2)=C.C22;
 tt(:,:,:,3)=C.C33;
@@ -105,6 +123,25 @@ IND3=setdiff(IND2,IND);
 beta=beta1+beta2+beta3;
 beta(IND)=beta(IND)/3;
 beta(IND3)=beta(IND3)/2;
+if PMLxp==0
+    beta(nx-lp:end,lp+2:ny-lp-1,lp+2:nz-lp-1)=0;
+end
+if PMLxm==0
+    beta(1:lp+1,lp+2:ny-lp-1,lp+2:nz-lp-1)=0;
+end
+if PMLyp==0
+    beta(lp+2:nx-lp-1,ny-lp:end,lp+2:nz-lp-1)=0;
+end
+if PMLym==0
+    beta(lp+2:nx-lp-1,1:lp+1,lp+2:nz-lp-1)=0;
+end
+if PMLzp==0
+    beta(lp+2:nx-lp-1,lp+2:ny-lp-1,nz-lp:end)=0;
+end
+if PMLzm==0
+    beta(lp+2:nx-lp-1,lp+2:ny-lp-1,1:lp+1)=0;
+end
+beta=single(beta);
 clear vmax beta01 beta02 beta03 tt beta1 beta2 beta3 IND IND2 IND3
 %% auxiliary variable
 v1_t=sigmas11;
@@ -401,7 +438,7 @@ for l=2:nt-1
             'source','receiver',...
             'Location',[0.5,0.02,0.005,0.002],'orientation','horizontal');
         %}
-        print(gcf,[path 'pic/' num2str(n_picture) '.png'],'-dpng','-r200')
+        print(gcf,[path 'pic/' num2str(n_picture) '.png'],'-dpng','-r200');
         %% save vtk
         c11=C.C11;
         filename = [path 'vts/velocity_model_Timestep', num2str(n_picture)];
